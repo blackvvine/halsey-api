@@ -5,7 +5,7 @@ import config as conf
 
 
 def get_db():
-    db=my.connect(conf.MYSQL_DB_URL, conf.MYSQL_DB_USER, conf.MYSQL_DB_PASS, conf.MYSQL_DB_NAME)
+    db = my.connect(conf.MYSQL_DB_URL, conf.MYSQL_DB_USER, conf.MYSQL_DB_PASS, conf.MYSQL_DB_NAME)
     return db
 
 
