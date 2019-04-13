@@ -21,7 +21,7 @@ def logd(*args):
     default_logger.debug(*args)
 
 
-def logi(*args:):
+def logi(*args):
     default_logger.info(*args)
 
 
