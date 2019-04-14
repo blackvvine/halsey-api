@@ -7,7 +7,7 @@ from filepath.filepath import fp
 import json
 
 
-def move_host_to_vn(ip, vtn):
+def move_host_to_vn(mac, vtn):
 
     logi("Authenticating to Google Cloud")
     login = fp(GEMEL_PATH) + fp("provision/gcp-login.sh")
@@ -15,7 +15,7 @@ def move_host_to_vn(ip, vtn):
 
     logi("Moving host to VN")
     reassign = fp(GEMEL_PATH) + fp("vnet/reassign-vn.sh")
-    bash("%s %s %s" % (reassign, ip, vtn))
+    bash("%s %s %s" % (reassign, mac, vtn))
 
     return json.dumps({"status": "OK"})
 
