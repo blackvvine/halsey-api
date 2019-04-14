@@ -17,8 +17,16 @@ def hello():
 
 @app.route("/ids/events/")
 def events():
-    min_id = request.args.get('min_id', 0)
-    return json.dumps(list(get_events(min_id=min_id)))
+    
+    ids_min_id = request.args.get('ids_min_id', 0)
+    ips_min_id = request.args.get('ips_min_id', 0)
+    
+    fetch = lambda server, min: list(get_events(server, min))
+    
+    return json.dumps({
+        "ids": fetch("ids", ids_min_id),
+        "ips": fetch("ips", ips_min_id),
+    })
 
 
 @app.route("/vnet/reassign")
@@ -33,3 +41,4 @@ def host_qos():
         "benign": ip_list(BENIGN_LIST()),
         "malicious": ip_list(MALICIOUS_LIST())
     })
+
