@@ -48,15 +48,26 @@ def getvn():
     return
 
 
-@app.route("/qos")
+@app.route("/sim/qos")
 def host_qos():
     # gets a file using HTTP request
     get = lambda ip, f: requests.get("http://%s:8000/%s.txt" % (ip, f)).text.strip()
     # receives insight lists for a IP group
-    ip_list = lambda ips: [{"mac": get(ip, "mac"), "host": get(ip, "hostname"), "insight": get(ip, "insight")}
+    ip_list = lambda ips: [{"mac": get(ip, "mac"), "host": get(ip, "hostname"), "insight": get(ip, "insight"), "google-ip": ip}
                            for ip in ips]
     return json.dumps({
         "benign": ip_list(BENIGN_LIST()),
         "malicious": ip_list(MALICIOUS_LIST())
     })
+
+
+@app.route("/sim/attack")
+def host_attack_stats():
+    # gets a file using HTTP request
+    get = lambda ip, f: requests.get("http://%s:8001/%s" % (ip, f)).text.strip()
+
+    ls = [{"stats": get(ip, "stats"), "mac": get(ip, "mac.txt"), "host": get(ip, "hostname.txt"), "google-ip": ip} for ip in MALICIOUS_LIST()]
+
+    return json.dumps(ls)
+
 
