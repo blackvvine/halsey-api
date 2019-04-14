@@ -4,7 +4,7 @@ import requests
 import json
 from snort import get_events
 from flask import Flask, request
-from vtn import get_vn
+from vtn import get_vn, toggle_vn
 
 from config import BENIGN_LIST, MALICIOUS_LIST
 
@@ -36,16 +36,10 @@ def get_host_vn():
     return json.dumps(get_vn(host))
 
 
-@app.route("/vnet/reassign")
-def reassign():
-    pass
-
-
-@app.route("/vnet/get")
-def getvn():
-
-    name = request.args.get('name')
-    return
+@app.route("/vnet/toggle")
+def toggle_host_vn():
+    host = request.args.get('host')
+    return json.dumps(toggle_vn(host))
 
 
 @app.route("/sim/qos")
