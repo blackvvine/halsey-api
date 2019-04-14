@@ -31,9 +31,9 @@ def events():
 
 
 @app.route("/vnet/get")
-def get_vn():
+def get_host_vn():
     host = request.args.get('host')
-    return get_vn(host)
+    return json.dumps(get_vn(host))
 
 
 @app.route("/vnet/reassign")
@@ -45,7 +45,6 @@ def reassign():
 def getvn():
 
     name = request.args.get('name')
-
     return
 
 

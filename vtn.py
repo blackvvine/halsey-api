@@ -7,30 +7,32 @@ from filepath.filepath import fp
 import json
 
 
-def _login():
-    logi("Authenticating to Google Cloud")
-    login = fp(GEMEL_PATH) + fp("provision/gcp-login.sh")
-    bash("%s %s" % (login, GCP_KEY_JSON))
-
-
-_login()
+# def _login():
+#     logi("Authenticating to Google Cloud")
+#     login = fp(GEMEL_PATH) + fp("provision/gcp-login.sh")
+#     bash("%s --credentials %s" % (login, GCP_KEY_JSON))
+#
+#
+# _login()
 
 
 def move_host_to_vn(mac, vtn):
 
     logi("Moving host to VN")
     reassign = fp(GEMEL_PATH) + fp("vnet/reassign-vn.sh")
-    bash("%s %s %s" % (reassign, mac, vtn))
+    bash("%s -i %s -n %s" % (reassign, mac, vtn))
 
     return {"status": "OK"}
 
 
 def get_vn(name):
 
-    logi("Moving host to VN")
+    logi("Getting host %s's VN" % name)
     get_vn = fp(GEMEL_PATH) + fp("vnet/get-vn.sh")
-    vn = bash("%s %s" % (get_vn, name))
+    out = bash("bash  %s %s" % (get_vn, name))
 
-    return {"net": vn}
+    vn_name = out.split(b"\n")[-2].decode("ascii")
+
+    return {"net": vn_name}
 
 
