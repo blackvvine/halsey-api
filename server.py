@@ -4,6 +4,7 @@ import requests
 import json
 from snort import get_events
 from flask import Flask, request
+from vtn import get_vn
 
 from config import BENIGN_LIST, MALICIOUS_LIST
 
@@ -29,14 +30,32 @@ def events():
     })
 
 
+@app.route("/vnet/get")
+def get_vn():
+    host = request.args.get('host')
+    return get_vn(host)
+
+
 @app.route("/vnet/reassign")
 def reassign():
     pass
 
 
+@app.route("/vnet/get")
+def getvn():
+
+    name = request.args.get('name')
+
+    return
+
+
 @app.route("/qos")
 def host_qos():
-    ip_list = lambda ips: [requests.get("http://" + ip + ":8000/insight.txt").text.strip() for ip in ips]
+    # gets a file using HTTP request
+    get = lambda ip, f: requests.get("http://%s:8000/%s.txt" % (ip, f)).text.strip()
+    # receives insight lists for a IP group
+    ip_list = lambda ips: [{"mac": get(ip, "mac"), "host": get(ip, "hostname"), "insight": get(ip, "insight")}
+                           for ip in ips]
     return json.dumps({
         "benign": ip_list(BENIGN_LIST()),
         "malicious": ip_list(MALICIOUS_LIST())
