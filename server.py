@@ -2,7 +2,7 @@
 
 import requests
 import json
-from snort import get_events
+from snort import get_events, net_history
 from flask import Flask, request
 from vtn import get_vn, toggle_vn
 
@@ -16,7 +16,7 @@ def hello():
     return "Hello World!"
 
 
-@app.route("/ids/events/")
+@app.route("/ids/events")
 def events():
     
     ids_min_id = request.args.get('ids_min_id', 0)
@@ -28,6 +28,13 @@ def events():
         "ids": fetch("ids", ids_min_id),
         "ips": fetch("ips", ips_min_id),
     })
+
+
+@app.route("/ids/hist")
+def events_hist():
+    interval = request.args.get('interval', 3600)
+    buckets = request.args.get('buckets', 10)
+    return json.dumps(net_history(interval, buckets))
 
 
 @app.route("/vnet/get")
