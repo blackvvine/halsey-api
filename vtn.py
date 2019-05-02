@@ -36,11 +36,11 @@ def get_vn(name):
     return {"net": vn_name}
 
 
-def toggle_vn(name):
+def toggle_vn(name, vn):
 
     logi("Getting host %s's VN" % name)
-    get_vn = fp(GEMEL_PATH) + fp("vnet/toggle-vn.sh")
-    bash("bash  %s %s" % (get_vn, name))
+    get_vn = fp(GEMEL_PATH) + fp("vnet/toggle-vn-nat.sh")
+    bash("bash  %s %s %s" % (get_vn, name, vn))
 
     return {"status": "OK"}
 

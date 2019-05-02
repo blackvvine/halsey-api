@@ -47,7 +47,8 @@ def get_host_vn():
 @app.route("/vnet/toggle")
 def toggle_host_vn():
     host = request.args.get('host')
-    return json.dumps(toggle_vn(host))
+    vn = request.args.get('vn')
+    return json.dumps(toggle_vn(host, vn))
 
 
 @app.route("/sim/qos")
