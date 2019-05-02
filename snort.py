@@ -31,7 +31,7 @@ def get_events(net, min_id=0):
         yield {desc[i][0]: row[i] for i in range(len(row))}
 
 
-def _get_net_event_history(net, interval, buckets):
+def get_net_event_history(net, interval, buckets):
 
     db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)
     c = db.cursor()
@@ -76,10 +76,13 @@ def _get_net_event_history(net, interval, buckets):
         yield {k[0]: row[i] for i, k in enumerate(dsc)}
 
 
-def net_history(interval=600, buckets=10):
+def net_history(net=None, interval=600, buckets=10):
 
-    return list(_get_net_event_history("ips", interval, buckets)) + \
-           list(_get_net_event_history("ids", interval, buckets))
+    if net is None:
+        return list(get_net_event_history("ips", interval, buckets)) + \
+           list(get_net_event_history("ids", interval, buckets))
+
+    return list(get_net_event_history(net, interval, buckets))
 
 
 if __name__ == "__main__":

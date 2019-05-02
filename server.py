@@ -34,7 +34,8 @@ def events():
 def events_hist():
     interval = request.args.get('interval', 3600)
     buckets = request.args.get('buckets', 10)
-    return json.dumps(net_history(interval, buckets))
+    net = request.args.get('net', None)
+    return json.dumps(net_history(net, interval, buckets))
 
 
 @app.route("/vnet/get")
