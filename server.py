@@ -54,7 +54,7 @@ def toggle_host_vn():
 def host_qos():
 
     # gets a file using HTTP request
-    get = lambda ip, f: requests.get("http://%s:8000/%s.txt" % (ip, f)).text.strip()
+    get = lambda ip, f: requests.get("http://%s:8000/%s" % (ip, f)).text.strip()
 
     # receives insight lists for a IP group
     ip_list = lambda ips: [{
