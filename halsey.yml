@@ -1,0 +1,21 @@
+---
+
+vnets:
+
+  - name: vnet1
+    security_level: 1
+    gateway: 10.142.15.240
+
+  - name: vnet2
+    security_level: 2
+    gateway: 10.142.0.3
+
+simulations:
+
+  benign:
+    - overlay_ip: 210.0.0.101
+      ip: 10.142.15.238
+
+  malicious:
+    - overlay_ip: 210.0.0.102
+      ip: 10.142.15.239
