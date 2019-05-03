@@ -4,6 +4,8 @@ from utils import bash, logi
 from config import GCP_KEY_JSON, GEMEL_PATH
 from filepath.filepath import fp
 
+from gemel.vnet import vtn as vnmanager
+
 import json
 
 
@@ -17,31 +19,17 @@ import json
 
 
 def move_host_to_vn(mac, vtn):
-
-    logi("Moving host to VN")
-    reassign = fp(GEMEL_PATH) + fp("vnet/reassign-vn.sh")
-    bash("%s -i %s -n %s" % (reassign, mac, vtn))
-
+    vnmanager.reassign_vtn(mac, vtn, safe=True)
     return {"status": "OK"}
 
 
-def get_vn(name):
-
-    logi("Getting host %s's VN" % name)
-    get_vn = fp(GEMEL_PATH) + fp("vnet/get-vn.sh")
-    out = bash("bash  %s %s" % (get_vn, name))
-
-    vn_name = out.split(b"\n")[-2].decode("ascii")
-
-    return {"net": vn_name}
+def get_vn(host_mac):
+    res = vnmanager.get_current_interface(host_mac)
+    return {"net": res[0] if res else "None"}
 
 
-def toggle_vn(name, vn):
-
-    logi("Getting host %s's VN" % name)
-    get_vn = fp(GEMEL_PATH) + fp("vnet/toggle-vn-nat.sh")
-    bash("bash  %s %s %s" % (get_vn, name, vn))
-
+def toggle_vn(host_mac):
+    vnmanager.toggle_vtn(host_mac)
     return {"status": "OK"}
 
 
