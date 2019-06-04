@@ -41,12 +41,16 @@ def events_hist():
 @app.route("/vnet/get")
 def get_host_vn():
     host = request.args.get('host')
+    if not host:
+        return json.dumps({"status": "400"}), 400
     return json.dumps(get_vn(host))
 
 
 @app.route("/vnet/toggle")
 def toggle_host_vn():
     host = request.args.get('host')
+    if not host:
+        return json.dumps({"status": "400"}), 400
     return json.dumps(toggle_vn(host))
 
 
@@ -58,9 +62,9 @@ def host_qos():
 
     # receives insight lists for a IP group
     ip_list = lambda ips: [{
-        "mac": get(ip, "mac"),
-        "host": get(ip, "hostname"),
-        "insight": get(ip, "insight"),
+        "mac": get(ip, "mac.txt"),
+        "host": get(ip, "hostname.txt"),
+        "insight": get(ip, "insight.txt"),
         "google-ip": ip
     } for ip in ips]
 
@@ -74,12 +78,12 @@ def host_qos():
 def host_attack_stats():
 
     # gets a file using HTTP request
-    get = lambda ip, f: requests.get("http://%s:8000/%s" % (ip, f)).text.strip()
+    get = lambda ip, f: requests.get("http://%s:8001/%s" % (ip, f)).text.strip()
 
     ls = [{
         "stats": get(ip, "stats"),
-        "mac": get(ip, "mac"),
-        "host": get(ip, "hostname"),
+        "mac": get(ip, "mac.txt"),
+        "host": get(ip, "hostname.txt"),
         "google-ip": ip
     } for ip in MALICIOUS_LIST()]
 
