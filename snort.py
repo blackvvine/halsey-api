@@ -53,8 +53,8 @@ def get_net_event_history(net, interval, buckets):
                  sig_name
           FROM event e
           INNER JOIN signature s ON e.signature = s.sig_id
-          INNER JOIN iphdr i ON i.cid = e.cid
-          WHERE unix_timestamp(timestamp) > UNIX_TIMESTAMP() - {interval}
+          INNER JOIN iphdr i ON i.cid = e.cid AND i.sid = e.sid
+          WHERE timestamp > CURRENT_TIMESTAMP - INTERVAL {interval} second 
          ) 
     AS m) mb
     GROUP BY bucket,
