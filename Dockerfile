@@ -28,5 +28,15 @@ COPY conf/key.json /root/
 RUN gcloud auth activate-service-account --key-file=/root/key.json
 RUN gcloud config set project phdandpeasant
 
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
+WORKDIR /root/
 
+RUN git clone https://github.com/haifa-foundation/gemel-sdn.git
+
+ENV PYTHONPATH=/root/gemel-sdn
+
+WORKDIR /root/halsey
+
+ENTRYPOINT start.sh
