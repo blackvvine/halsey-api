@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -it iman/halsey:1 -v $(pwd)/src:/root/halsey bash
+docker run -it --rm -v $(pwd)/src:/root/halsey iman/halsey:1

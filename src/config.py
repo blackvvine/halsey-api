@@ -47,3 +47,5 @@ def BENIGN_LIST():
 def MALICIOUS_LIST():
     return [h["ip"] for h in _read_yml_conf()["simulations"]["malicious"]]
 
+
+PORT = _read_yml_conf()["port"]

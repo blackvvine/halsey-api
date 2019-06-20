@@ -1,5 +1,7 @@
 ---
 
+port: 8080
+
 vnets:
 
   - name: vnet1

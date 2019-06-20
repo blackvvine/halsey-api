@@ -33,10 +33,11 @@ ENV LANG=C.UTF-8
 
 WORKDIR /root/
 
+RUN apt install -y git
 RUN git clone https://github.com/haifa-foundation/gemel-sdn.git
 
 ENV PYTHONPATH=/root/gemel-sdn
 
 WORKDIR /root/halsey
 
-ENTRYPOINT start.sh
+CMD /root/halsey/run.sh
