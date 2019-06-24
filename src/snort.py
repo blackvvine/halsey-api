@@ -10,17 +10,21 @@ def get_db(conf):
     return db
 
 
-def get_events(net, min_id=0):
+# noinspection SqlNoDataSourceInspection
+def get_events(net, min_id=0, interval=None):
 
     db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)
 
+    date_clause = "" if interval is None else \
+        "AND timestamp > CURRENT_TIMESTAMP - INTERVAL {} second".format(interval)
+
     c = db.cursor()
     c.execute("""
-        SELECT e.cid, e.sid, sig_id, sig_name, ip_src, ip_dst, ip_len, ip_id FROM event e
+        SELECT e.cid, e.sid, sig_id, sig_name, INET_NTOA(ip_src) as src, INET_NTOA(ip_dst) as dst, ip_len, ip_id FROM event e
             INNER JOIN signature s ON e.signature = s.sig_id
-                INNER JOIN iphdr i ON i.cid = e.cid
-                    WHERE e.cid >= {min_id}
-    """.format(min_id=min_id))
+                INNER JOIN iphdr i ON i.cid = e.cid AND i.sid = e.sid
+                    WHERE e.cid >= {min_id} {date_clause}
+    """.format(min_id=min_id, date_clause=date_clause))
 
     desc = c.description
 
@@ -31,6 +35,7 @@ def get_events(net, min_id=0):
         yield {desc[i][0]: row[i] for i in range(len(row))}
 
 
+# noinspection SqlNoDataSourceInspection,SqlDialectInspection
 def get_net_event_history(net, interval, buckets):
 
     db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)

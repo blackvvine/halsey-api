@@ -21,8 +21,9 @@ def events():
     
     ids_min_id = request.args.get('ids_min_id', 0)
     ips_min_id = request.args.get('ips_min_id', 0)
-    
-    fetch = lambda server, min: list(get_events(server, min))
+    interval = request.args.get('interval', None)
+
+    fetch = lambda server, min: list(get_events(server, min, interval))
     
     return json.dumps({
         "ids": fetch("ids", ids_min_id),
