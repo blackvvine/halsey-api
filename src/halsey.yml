@@ -6,18 +6,21 @@ vnets:
 
   - name: vnet1
     security_level: 1
-    gateway: 10.142.0.44
+    gateway-ip: 10.138.0.4
+    gateway-mac: 9a:74:e3:2d:ec:bd
 
   - name: vnet2
     security_level: 2
-    gateway: 10.142.0.33
+    gateway-ip: 10.138.0.5
+    gateway-mac: a2:fc:58:21:bf:78
 
 simulations:
 
   benign:
     - overlay_ip: 210.0.0.101
-      ip: 10.142.0.35
+      ip: 10.138.0.8
 
   malicious:
     - overlay_ip: 210.0.0.102
-      ip: 10.142.0.36
+      ip: 10.138.0.9
+

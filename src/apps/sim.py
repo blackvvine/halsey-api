@@ -1,7 +1,6 @@
 import requests
 
-from config import MALICIOUS_LIST
-from ..config import BENIGN_LIST, MALICIOUS_LIST
+from config import BENIGN_LIST, MALICIOUS_LIST
 
 def get_host_qos():
 

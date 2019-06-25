@@ -6,6 +6,7 @@ from flask import Flask, request
 
 from apps.sim import get_host_qos, get_attack_stats
 from apps.vtn import get_vn, toggle_vn
+from apps.topo import get_arp_table
 
 app = Flask("Hasley")
 
@@ -64,6 +65,8 @@ def host_attack_stats():
     return json.dumps(get_attack_stats())
 
 
-@app.route("/topo/hosts")
-def get_host_list():
-    pass
+@app.route("/topo/arp")
+def arp_table():
+    return json.dumps(get_arp_table())
+
+
