@@ -9,15 +9,6 @@ from gemel.vnet import vtn as vnmanager
 import json
 
 
-# def _login():
-#     logi("Authenticating to Google Cloud")
-#     login = fp(GEMEL_PATH) + fp("provision/gcp-login.sh")
-#     bash("%s --credentials %s" % (login, GCP_KEY_JSON))
-#
-#
-# _login()
-
-
 def move_host_to_vn(mac, vtn):
     vnmanager.reassign_vtn(mac, vtn, safe=True)
     return {"status": "OK"}

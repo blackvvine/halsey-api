@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
 
-import requests
 import json
-from snort import get_events, net_history
+from apps.ids import get_events, net_history
 from flask import Flask, request
-from vtn import get_vn, toggle_vn
 
-from config import BENIGN_LIST, MALICIOUS_LIST
+from apps.sim import get_host_qos, get_attack_stats
+from apps.vtn import get_vn, toggle_vn
 
 app = Flask("Hasley")
 
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    return "Salam Donya!"
 
 
 @app.route("/ids/events")
 def events():
-    
+
     ids_min_id = request.args.get('ids_min_id', 0)
     ips_min_id = request.args.get('ips_min_id', 0)
     interval = request.args.get('interval', None)
@@ -57,37 +56,14 @@ def toggle_host_vn():
 
 @app.route("/sim/qos")
 def host_qos():
-
-    # gets a file using HTTP request
-    get = lambda ip, f: requests.get("http://%s:8000/%s" % (ip, f)).text.strip()
-
-    # receives insight lists for a IP group
-    ip_list = lambda ips: [{
-        "mac": get(ip, "mac.txt"),
-        "host": get(ip, "hostname.txt"),
-        "insight": get(ip, "insight.txt"),
-        "google-ip": ip
-    } for ip in ips]
-
-    return json.dumps({
-        "benign": ip_list(BENIGN_LIST()),
-        "malicious": ip_list(MALICIOUS_LIST())
-    })
+    return json.dumps(get_host_qos())
 
 
 @app.route("/sim/attack")
 def host_attack_stats():
-
-    # gets a file using HTTP request
-    get = lambda ip, f: requests.get("http://%s:8001/%s" % (ip, f)).text.strip()
-
-    ls = [{
-        "stats": get(ip, "stats"),
-        "mac": get(ip, "mac.txt"),
-        "host": get(ip, "hostname.txt"),
-        "google-ip": ip
-    } for ip in MALICIOUS_LIST()]
-
-    return json.dumps(ls)
+    return json.dumps(get_attack_stats())
 
 
+@app.route("/topo/hosts")
+def get_host_list():
+    pass
