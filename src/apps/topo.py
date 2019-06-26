@@ -1,6 +1,6 @@
 
 from gemel.vnet import vtn
-from config import GATEWAYS
+from config import GATEWAYS, SIMULATIONS
 
 
 def get_arp_table():
@@ -20,6 +20,10 @@ def get_arp_table():
             arp_table[addr["ip"]] = arp_table.get(addr["ip"], []) + [addr["mac"]]
 
     return arp_table
+
+
+def get_sims():
+    return SIMULATIONS
 
 
 if __name__ == "__main__":

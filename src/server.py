@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import json
+
+from apps import topo
 from apps.ids import get_events, net_history
 from flask import Flask, request
 
@@ -25,6 +27,18 @@ def events():
 
     fetch = lambda server, min: list(get_events(server, min, interval))
     
+    return json.dumps({
+        "ids": fetch("ids", ids_min_id),
+        "ips": fetch("ips", ips_min_id),
+    })
+
+
+@app.route("/v1/ids/events")
+def events():
+
+    interval = request.args.get('interval', None)
+    fetch = lambda server, min: list(get_events(server, min, interval))
+
     return json.dumps({
         "ids": fetch("ids", ids_min_id),
         "ips": fetch("ips", ips_min_id),
@@ -65,8 +79,13 @@ def host_attack_stats():
     return json.dumps(get_attack_stats())
 
 
-@app.route("/topo/arp")
+@app.route("/v1/topo/arp")
 def arp_table():
-    return json.dumps(get_arp_table())
+    return json.dumps(topo.get_arp_table())
+
+
+@app.route("/v1/topo/sims")
+def get_simulations():
+    return json.dumps(topo.get_sims())
 
 

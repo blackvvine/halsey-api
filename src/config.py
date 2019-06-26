@@ -9,7 +9,7 @@ from logging import DEBUG
 
 def _read_yml_conf():
     with open(join(dirname(__file__), "halsey.yml")) as f:
-        return yaml.load(f.read())
+        return yaml.load(f.read(), Loader=yaml.FullLoader)
 
 
 def _get_vn(seclevel):
@@ -35,7 +35,7 @@ DB_IPS = {
     "MYSQL_DB_NAME": _ips_net.get("db_name", "snort"),
 }
 
-GATEWAYS = [{"ip": n["gateway-ip"], "mac": n["gateway-mac"]} for n in \
+GATEWAYS = [{"ip": n["gateway-ip"], "mac": n["gateway-mac"]} for n in
             (_get_vn(i) for i in range(1, NUM_VNETS + 1))]
 
 GCP_KEY_JSON = join(dirname(__file__), "key.json")
@@ -54,3 +54,6 @@ def MALICIOUS_LIST():
 
 
 PORT = _read_yml_conf()["port"]
+
+
+SIMULATIONS = _read_yml_conf()["simulations"]

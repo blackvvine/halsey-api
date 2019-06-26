@@ -18,9 +18,11 @@ simulations:
 
   benign:
     - overlay_ip: 210.0.0.101
-      ip: 10.138.0.8
+      internal_ip: 10.138.0.8
+      mac: 02:84:62:da:44:45
 
   malicious:
     - overlay_ip: 210.0.0.102
-      ip: 10.138.0.9
+      internal_ip: 10.138.0.9
+      mac: 32:8c:19:f5:9b:b0
 

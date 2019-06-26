@@ -13,6 +13,8 @@ def get_db(conf):
 # noinspection SqlNoDataSourceInspection
 def get_events(net, min_id=0, interval=None):
 
+    net = {"ids": "vnet1"}
+
     db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)
 
     date_clause = "" if interval is None else \
