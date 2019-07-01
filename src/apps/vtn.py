@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from utils import bash, logi
-from config import GCP_KEY_JSON, GEMEL_PATH
+from config import GCP_KEY_JSON, GEMEL_PATH, SIMULATIONS
 from filepath.filepath import fp
 
 from gemel.vnet import vtn as vnmanager
@@ -23,4 +23,7 @@ def toggle_vn(host_mac):
     vnmanager.toggle_vtn(host_mac)
     return {"status": "OK"}
 
+
+def status():
+    return {host["mac"]: get_vn(host["mac"])["net"] for _, hosts in SIMULATIONS.items() for host in hosts}
 

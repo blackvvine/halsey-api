@@ -75,8 +75,7 @@ def get_net_event_history(net, interval, buckets):
           FROM event e
           INNER JOIN signature s ON e.signature = s.sig_id
           INNER JOIN iphdr i ON i.cid = e.cid AND i.sid = e.sid
-          WHERE timestamp > CURRENT_TIMESTAMP - INTERVAL {interval} second 
-         ) 
+          WHERE timestamp > CURRENT_TIMESTAMP - INTERVAL {interval} second) 
     AS m) mb
     GROUP BY bucket,
              dst,
@@ -106,8 +105,5 @@ def net_history(net=None, interval=600, buckets=10):
     return list(get_net_event_history(net, interval, buckets))
 
 
-if __name__ == "__main__":
-    for r in get_events():
-        print(r)
 
 
