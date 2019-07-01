@@ -24,6 +24,11 @@ def toggle_vn(host_mac):
     return {"status": "OK"}
 
 
+def move_host_to(host_mac, vnet_name):
+    vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
+    return {"status": "OK"}
+
+
 def status():
     return {host["mac"]: get_vn(host["mac"])["net"] for _, hosts in SIMULATIONS.items() for host in hosts}
 

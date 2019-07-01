@@ -16,8 +16,8 @@ from config import ALERTS, VNETS
 app = Flask("Hasley")
 
 
-def json_result(obj):
-    return Response(json.dumps(obj), mimetype="application/json")
+def json_result(obj, status=200):
+    return Response(json.dumps(obj), mimetype="application/json", status=status)
 
 
 @app.route("/")
@@ -64,7 +64,7 @@ def events_hist():
 def get_host_vn():
     host = request.args.get('host')
     if not host:
-        return json_result({"status": "400"}), 400
+        return json_result({"status": "400"}, status=400)
     return json_result(get_vn(host))
 
 
@@ -72,8 +72,22 @@ def get_host_vn():
 def toggle_host_vn():
     host = request.args.get('host')
     if not host:
-        return json_result({"status": "400"}), 400
+        return json_result({"status": "400"}, status=400)
     return json_result(toggle_vn(host))
+
+
+@app.route("/v1/vnet/set")
+def set_host_vn():
+    host = request.args.get('host')
+    vnet = request.args.get('vnet')
+    if not host or not vnet:
+        return json_result({"status": "400"}, status=400)
+    return json_result(vtn.move_host_to(host, vnet))
+
+
+@app.route("/v1/vnet/list")
+def vnet_list():
+    return json_result(VNETS)
 
 
 @app.route("/v1/vnet/status")
@@ -81,7 +95,7 @@ def vnet_status():
     return json_result(vtn.status())
 
 
-@app.route("/v1/vnet/info")
+@app.route("/v1/info/alerts")
 def get_alerts_info():
     return json_result(ALERTS)
 
@@ -104,5 +118,6 @@ def arp_table():
 @app.route("/v1/topo/sims")
 def get_simulations():
     return json_result(topo.get_sims())
+
 
 
