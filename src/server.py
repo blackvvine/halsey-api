@@ -10,6 +10,8 @@ from apps.sim import get_host_qos, get_attack_stats
 from apps.vtn import get_vn, toggle_vn
 from apps.topo import get_arp_table
 
+from config import ALERTS, VNETS
+
 app = Flask("Hasley")
 
 
@@ -19,7 +21,7 @@ def hello():
 
 
 @app.route("/ids/events")
-def events():
+def events_legacy():
 
     ids_min_id = request.args.get('ids_min_id', 0)
     ips_min_id = request.args.get('ips_min_id', 0)
@@ -37,11 +39,11 @@ def events():
 def events():
 
     interval = request.args.get('interval', None)
-    fetch = lambda server, min: list(get_events(server, min, interval))
+    fetch = lambda server: list(get_events(server, interval=interval))
 
     return json.dumps({
-        "ids": fetch("ids", ids_min_id),
-        "ips": fetch("ips", ips_min_id),
+        vn["name"]: fetch(vn["name"])
+        for vn in VNETS
     })
 
 
@@ -87,5 +89,10 @@ def arp_table():
 @app.route("/v1/topo/sims")
 def get_simulations():
     return json.dumps(topo.get_sims())
+
+
+@app.route("/v1/info/alerts")
+def get_alerts_info():
+    return json.dumps(ALERTS)
 
 

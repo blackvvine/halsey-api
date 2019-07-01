@@ -2,7 +2,7 @@
 
 import MySQLdb as my
 
-from config import DB_IDS, DB_IPS
+from config import GATEWAY_DB_CONF
 
 
 def get_db(conf):
@@ -13,16 +13,24 @@ def get_db(conf):
 # noinspection SqlNoDataSourceInspection
 def get_events(net, min_id=0, interval=None):
 
-    net = {"ids": "vnet1"}
+    _legacy = {"ids": "vnet1", "ips": "vnet2"}
 
-    db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)
+    if net.lower() in _legacy:
+        net = _legacy[net.lower()]
+
+    db = get_db(GATEWAY_DB_CONF[net])
 
     date_clause = "" if interval is None else \
         "AND timestamp > CURRENT_TIMESTAMP - INTERVAL {} second".format(interval)
 
     c = db.cursor()
     c.execute("""
-        SELECT e.cid, e.sid, sig_id, sig_name, INET_NTOA(ip_src) as src, INET_NTOA(ip_dst) as dst, ip_len, ip_id FROM event e
+        SELECT 
+            e.cid, e.sid, sig_id, sig_name, 
+            INET_NTOA(ip_src) as src, 
+            INET_NTOA(ip_dst) as dst, 
+            ip_len, ip_id 
+        FROM event e
             INNER JOIN signature s ON e.signature = s.sig_id
                 INNER JOIN iphdr i ON i.cid = e.cid AND i.sid = e.sid
                     WHERE e.cid >= {min_id} {date_clause}
@@ -40,7 +48,13 @@ def get_events(net, min_id=0, interval=None):
 # noinspection SqlNoDataSourceInspection,SqlDialectInspection
 def get_net_event_history(net, interval, buckets):
 
-    db = get_db(DB_IPS if net.lower() == "ips" else DB_IDS)
+    _legacy = {"ids": "vnet1", "ips": "vnet2"}
+
+    if net.lower() in _legacy:
+        net = _legacy[net.lower()]
+
+    db = get_db(GATEWAY_DB_CONF[net])
+
     c = db.cursor()
 
     query = """
