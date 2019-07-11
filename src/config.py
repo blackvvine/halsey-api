@@ -45,12 +45,12 @@ GEMEL_PATH = "/opt/gemel-sdn"
 LOG_LEVEL = DEBUG
 
 
-def BENIGN_LIST():
-    return [h["ip"] for h in _read_yml_conf()["simulations"]["benign"]]
+def BENIGN_IP_LIST():
+    return [h["internal_ip"] for h in _read_yml_conf()["simulations"]["benign"]]
 
 
-def MALICIOUS_LIST():
-    return [h["ip"] for h in _read_yml_conf()["simulations"]["malicious"]]
+def MALICIOUS_IP_LIST():
+    return [h["internal_ip"] for h in _read_yml_conf()["simulations"]["malicious"]]
 
 
 PORT = _read_yml_conf()["port"]

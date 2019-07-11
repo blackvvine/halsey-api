@@ -6,7 +6,7 @@ from apps import topo
 from apps.ids import get_events, net_history
 from flask import Flask, request
 
-from apps.sim import get_host_qos, get_attack_stats
+from apps.sim import get_hosts_qos, get_hosts_qos__legacy, get_attack_stats
 from apps.vtn import get_vn, toggle_vn
 from apps.topo import get_arp_table
 
@@ -19,7 +19,7 @@ def hello():
 
 
 @app.route("/ids/events")
-def events():
+def events_legacy():
 
     ids_min_id = request.args.get('ids_min_id', 0)
     ips_min_id = request.args.get('ips_min_id', 0)
@@ -70,8 +70,13 @@ def toggle_host_vn():
 
 
 @app.route("/sim/qos")
+def host_qos_legacy():
+    return json.dumps(get_hosts_qos__legacy())
+
+
+@app.route("/v1/sim/qos")
 def host_qos():
-    return json.dumps(get_host_qos())
+    return json.dumps(get_hosts_qos())
 
 
 @app.route("/sim/attack")
