@@ -1,3 +1,16 @@
-# halsey-api
+Halsey API
+==========
 
-Provides gateway to the infrastructure launched at [Gemel project](https://github.com/blackvvine/gemel-sdn/).
+Provides REST API for accessing all the necessary resources on the Gemel SDN.
+
+Set-up
+-------
+This is designed to run inside the GCP virtual cloud network. 
+
+* Make sure hosts have access to Barnyard MySQL servers
+* Install MySQL client on server
+* `pip install -r requirements.txt`
+* To start server: `./run.sh`
+
+
+
