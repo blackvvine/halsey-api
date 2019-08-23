@@ -1,6 +1,6 @@
 import requests
 
-from config import BENIGN_IP_LIST, MALICIOUS_IP_LIST, SIMULATIONS
+from config import BENIGN_LIST, MALICIOUS_LIST, SIMULATIONS
 
 
 def get_hosts_qos__legacy():
@@ -22,8 +22,8 @@ def get_hosts_qos__legacy():
         } for ip in ips]
 
     return {
-        "benign": ip_list(BENIGN_IP_LIST()),
-        "malicious": ip_list(MALICIOUS_IP_LIST())
+        "benign": ip_list(BENIGN_LIST()),
+        "malicious": ip_list(MALICIOUS_LIST())
     }
 
 
@@ -40,7 +40,7 @@ def get_attack_stats():
         "mac": get(ip, "mac.txt"),
         "host": get(ip, "hostname.txt"),
         "google-ip": ip
-    } for ip in MALICIOUS_IP_LIST()]
+    } for ip in MALICIOUS_LIST()]
     return ls
 
 
