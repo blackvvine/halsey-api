@@ -45,11 +45,11 @@ LOG_LEVEL = DEBUG
 
 
 def BENIGN_LIST():
-    return [h["ip"] for h in _yml_conf()["simulations"]["benign"]]
+    return [h["internal_ip"] for h in _yml_conf()["simulations"]["benign"]]
 
 
 def MALICIOUS_LIST():
-    return [h["ip"] for h in _yml_conf()["simulations"]["malicious"]]
+    return [h["internal_ip"] for h in _yml_conf()["simulations"]["malicious"]]
 
 
 PORT = _yml_conf()["port"]

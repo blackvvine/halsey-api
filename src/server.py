@@ -6,7 +6,7 @@ from apps import topo
 from apps.ids import get_events, net_history
 from flask import Flask, request, Response
 
-from apps.sim import get_host_qos, get_attack_stats
+from apps.sim import get_hosts_qos, get_hosts_qos__legacy, get_attack_stats
 from apps.vtn import get_vn, toggle_vn
 from apps.topo import get_arp_table
 from apps import vtn
@@ -101,6 +101,11 @@ def get_alerts_info():
 
 
 @app.route("/sim/qos")
+def host_qos_legacy():
+    return json.dumps(get_hosts_qos__legacy())
+
+
+@app.route("/v1/sim/qos")
 def host_qos():
     return json_result(get_host_qos())
 
