@@ -5,14 +5,10 @@ USER root
 
 RUN apt update
 
-COPY src /root/halsey
-
-WORKDIR /root/halsey
-
 # install package requirements e.g. MySQL client
+COPY req /root/halsey-req
+WORKDIR /root/halsey-req
 RUN bash requirements.sh
-
-# RUN apt install -y python3 python3-pip
 
 # install python 3.6
 RUN apt-get install -y software-properties-common
@@ -32,20 +28,22 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 RUN apt-get update && apt-get install -y google-cloud-sdk
 
-# install GCloud service keys
-COPY conf/key.json /root/
-RUN gcloud auth activate-service-account --key-file=/root/key.json
-RUN gcloud config set project phdandpeasant
-
-# set locale
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-
 # install gemel python dependency
 WORKDIR /root/
 RUN apt install -y git
 RUN git clone https://github.com/haifa-foundation/gemel-sdn.git
 ENV PYTHONPATH=/root/gemel-sdn
 
+# set locale
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+# install GCloud service keys
+COPY conf/key.json /root/
+RUN gcloud auth activate-service-account --key-file=/root/key.json
+RUN gcloud config set project phdandpeasant
+
+# copy source
+COPY src /root/halsey
 WORKDIR /root/halsey
 CMD /root/halsey/run.sh
