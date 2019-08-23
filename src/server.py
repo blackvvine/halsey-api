@@ -107,7 +107,7 @@ def host_qos_legacy():
 
 @app.route("/v1/sim/qos")
 def host_qos():
-    return json_result(get_host_qos())
+    return json_result(get_hosts_qos())
 
 
 @app.route("/sim/attack")
