@@ -36,9 +36,9 @@ def get_attack_stats():
     # gets a file using HTTP request
     get = lambda ip, f: requests.get("http://%s:8001/%s" % (ip, f)).text.strip()
     ls = [{
-        "stats": get(ip, "stats"),
-        "mac": get(ip, "mac.txt"),
-        "host": get(ip, "hostname.txt"),
+        "stats": get(ip, "attack-stats.json"),
+        # "mac": get(ip, "mac.txt"),
+        # "host": get(ip, "hostname.txt"),
         "google-ip": ip
     } for ip in MALICIOUS_LIST()]
     return ls
