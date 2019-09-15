@@ -22,11 +22,11 @@ RUN ln -s /usr/bin/python3.6 /usr/bin/python3
 # install python dependencies
 RUN pip3 install -r requirements.txt
 
-# install google cloud SDK
-RUN apt install -y curl
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-RUN apt-get update && apt-get install -y google-cloud-sdk
+# # install google cloud SDK
+# RUN apt install -y curl
+# RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+# RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+# RUN apt-get update && apt-get install -y google-cloud-sdk
 
 # install gemel python dependency
 WORKDIR /root/
@@ -38,10 +38,10 @@ ENV PYTHONPATH=/root/gemel-sdn
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# install GCloud service keys
-COPY conf/key.json /root/
-RUN gcloud auth activate-service-account --key-file=/root/key.json
-RUN gcloud config set project phdandpeasant
+# # install GCloud service keys
+# COPY conf/key.json /root/
+# RUN gcloud auth activate-service-account --key-file=/root/key.json
+# RUN gcloud config set project phdandpeasant
 
 # copy source
 COPY src /root/halsey
