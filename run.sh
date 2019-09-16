@@ -16,4 +16,12 @@ fi
 
 src_path=$(realpath $DIR/src)
 
-docker run $daemon --name "mg-halsey" -it --rm -p $port:$port -v $src_path:/root/halsey iman/halsey:1
+cont_name=$(cat src/halsey.yml | grep container-name | cut -d":" -f2 | sed -e 's/\s//g')
+
+[ -z "$cont_name" ] && {
+    cont_name=halsey-server
+}
+
+echo $cont_name
+
+docker run $daemon --name $cont_name -it --rm -p $port:$port -v $src_path:/root/halsey iman/halsey:1
