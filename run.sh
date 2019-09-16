@@ -6,6 +6,8 @@ portnum() {
     cat $DIR/src/halsey.yml | grep port | grep -oE '[[:digit:]]+'
 }
 
+set -e
+
 port=$(portnum)
 daemon=""
 
