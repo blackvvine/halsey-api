@@ -25,7 +25,7 @@ def hello():
     return "Salam Donya!"
 
 
-@app.route("/ids/events")
+@app.route("/v1/ids/events")
 def events_legacy():
 
     ids_min_id = request.args.get('ids_min_id', 0)
@@ -40,7 +40,7 @@ def events_legacy():
     })
 
 
-@app.route("/v1/ids/events")
+@app.route("/ids/events")
 def events():
 
     interval = request.args.get('interval', None)
@@ -60,7 +60,7 @@ def events_hist():
     return json_result(net_history(net, interval, buckets))
 
 
-@app.route("/vnet/get")
+@app.route("/v1/vnet/get")
 def get_host_vn():
     host = request.args.get('host')
     if not host:
@@ -68,7 +68,7 @@ def get_host_vn():
     return json_result(get_vn(host))
 
 
-@app.route("/vnet/toggle")
+@app.route("/v1/vnet/toggle")
 def toggle_host_vn():
     host = request.args.get('host')
     if not host:
