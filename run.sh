@@ -3,7 +3,7 @@
 DIR=$(dirname $0)
 
 portnum() {
-    cat src/halsey.yml | grep port | grep -oE '[[:digit:]]+'
+    cat $DIR/src/halsey.yml | grep port | grep -oE '[[:digit:]]+'
 }
 
 port=$(portnum)
@@ -14,4 +14,4 @@ then
     daemon="-d"
 fi
 
-docker run $daemon -it --rm -p $port:$port -v $(pwd)/src:/root/halsey iman/halsey:1
+docker run $daemon -it --rm -p $port:$port -v $DIR/src:/root/halsey iman/halsey:1
