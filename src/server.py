@@ -25,7 +25,7 @@ def hello():
     return "Salam Donya!"
 
 
-@app.route("/v1/ids/events")
+@app.route("/ids/events")
 def events_legacy():
 
     ids_min_id = request.args.get('ids_min_id', 0)
@@ -40,7 +40,7 @@ def events_legacy():
     })
 
 
-@app.route("/ids/events")
+@app.route("/v1/ids/events")
 def events():
 
     interval = request.args.get('interval', None)
