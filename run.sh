@@ -16,4 +16,4 @@ fi
 
 src_path=$(realpath $DIR/src)
 
-docker run $daemon -it --rm -p $port:$port -v $src_path:/root/halsey iman/halsey:1
+docker run $daemon --name "mg-halsey" -it --rm -p $port:$port -v $src_path:/root/halsey iman/halsey:1
