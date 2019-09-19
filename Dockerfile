@@ -30,7 +30,7 @@ RUN pip3 install -r requirements.txt
 
 # install gemel python dependency
 WORKDIR /root/
-RUN apt install -y git
+RUN apt install -y git screen
 RUN git clone --single-branch --branch mini-gemel https://github.com/haifa-foundation/gemel-sdn.git
 ENV PYTHONPATH=/root/gemel-sdn
 
