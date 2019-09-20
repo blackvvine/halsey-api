@@ -10,8 +10,9 @@ import json
 
 
 def move_host_to_vn(mac, vtn):
-    vnmanager.reassign_vtn(mac, vtn, safe=True)
-    return {"status": "OK"}
+    # vnmanager.reassign_vtn(mac, vtn, safe=True)
+    # return {"status": "OK"}
+    return move_host_to(mac, vtn)
 
 
 def get_vn(host_mac):
@@ -24,8 +25,10 @@ def toggle_vn(host_mac):
     return {"status": "OK"}
 
 
-def move_host_to(host_mac, vnet_name):
-    vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
+def move_host_to(mac, vnet):
+    while vtn.get_current_interface(mac) is None or vtn.get_current_interface(mac)[0] != vnet:
+        vtn.reassign_vtn(mac, vnet, safe=True)
+    # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
     return {"status": "OK"}
 
 
