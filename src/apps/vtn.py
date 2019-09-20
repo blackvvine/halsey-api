@@ -34,6 +34,7 @@ def move_host_to(mac, vnet):
         vnmanager.reassign_vtn(mac, vnet, safe=True)
         time.sleep(0.4)
         counter += 1
+        current_int = vnmanager.get_current_interface(mac)
     # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
     return {"status": "OK"}
 
