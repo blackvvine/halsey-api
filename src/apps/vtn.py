@@ -26,8 +26,10 @@ def toggle_vn(host_mac):
 
 
 def move_host_to(mac, vnet):
+    import time
     while vnmanager.get_current_interface(mac) is None or vnmanager.get_current_interface(mac)[0] != vnet:
         vnmanager.reassign_vtn(mac, vnet, safe=True)
+        time.sleep(0.1)
     # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
     return {"status": "OK"}
 
