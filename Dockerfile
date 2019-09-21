@@ -43,6 +43,9 @@ ENV LANG=C.UTF-8
 # RUN gcloud auth activate-service-account --key-file=/root/key.json
 # RUN gcloud config set project phdandpeasant
 
+# update gemel URL
+RUN sed -i /root/gemel-sdn/gemel/config.py -e 's/http:\/\/.*"/http:\/\/einstein-cont"/g'
+
 # copy source
 COPY src /root/halsey
 WORKDIR /root/halsey
