@@ -32,11 +32,15 @@ def move_host_to(mac, vnet):
     target_status = status()
     target_status["mac"] = vnet
 
-    while target_status != status():
+    current_status = status()
+
+    while target_status != current_status:
         counter += 1
         print("### set {} to {}, pass: {}".format(mac, vnet, counter))
         for hmac, target in target_status.items():
-            vnmanager.reassign_vtn(hmac, target, safe=True)
+            if target != current_status[hmac]:
+                vnmanager.reassign_vtn(hmac, target, safe=True)
+            current_status = status()
 
     # while current_int is None or current_int[0] != vnet:
     #     print("Update %s to %s, retry %d" % (mac, vnet, counter))
