@@ -30,7 +30,7 @@ def move_host_to(mac, vnet):
     counter = 0
 
     target_status = status()
-    target_status["mac"] = vnet
+    target_status[mac] = vnet
 
     current_status = status()
 
