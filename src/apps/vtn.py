@@ -32,7 +32,7 @@ def move_host_to(mac, vnet):
     while current_int is None or current_int[0] != vnet:
         print("Update %s to %s, retry %d" % (mac, vnet, counter))
         vnmanager.reassign_vtn(mac, vnet, safe=True)
-        time.sleep(0.4)
+        time.sleep(1)
         counter += 1
         current_int = vnmanager.get_current_interface(mac)
     # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
