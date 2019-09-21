@@ -27,15 +27,24 @@ def toggle_vn(host_mac):
 
 def move_host_to(mac, vnet):
     import time
-    current_int = vnmanager.get_current_interface(mac)
     counter = 0
-    while current_int is None or current_int[0] != vnet:
-        print("Update %s to %s, retry %d" % (mac, vnet, counter))
-        vnmanager.reassign_vtn(mac, vnet, safe=True)
-        time.sleep(1)
+
+    target_status = status()
+    target_status["mac"] = vnet
+
+    while target_status != status():
         counter += 1
-        current_int = vnmanager.get_current_interface(mac)
-    # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
+        print("### set {} to {}, pass: {}".format(mac, vnet, counter))
+        for hmac, target in target_status.items():
+            vnmanager.reassign_vtn(hmac, target, safe=True)
+
+    # while current_int is None or current_int[0] != vnet:
+    #     print("Update %s to %s, retry %d" % (mac, vnet, counter))
+    #     vnmanager.reassign_vtn(mac, vnet, safe=True)
+    #     time.sleep(1)
+    #     counter += 1
+    #     current_int = vnmanager.get_current_interface(mac)
+    # # vnmanager.reassign_vtn(host_mac, vnet_name, safe=True)
     return {"status": "OK"}
 
 
